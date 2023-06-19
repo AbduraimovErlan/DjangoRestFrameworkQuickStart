@@ -250,3 +250,14 @@ def get_exception_handler(self):
 
 
 
+def get_exception_handler_context(self):
+    """
+    Returns a dict that is passed through to EXCEPTION_HANDLER,
+    as the 'context' argument.
+    """
+    return {
+        'view': self,
+        'args': getattr(self, 'args', ()),
+        'kwargs': getattr(self, 'kwargs', {}),
+        'request': getattr(self, 'request', None)
+    }
