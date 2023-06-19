@@ -320,3 +320,10 @@ def get_renderer_context(self):
     }
 
 
+
+def get_renderers(self):
+    """
+    Instantiates and returns the list of renderers that this view can use.
+    """
+    return [renderer() for renderer in self.renderer_classes]
+
