@@ -272,3 +272,19 @@ def get_format_suffix(self, **kwargs):
         return kwargs.get(self.settings.FORMAT_SUFFIX_KWARG)
 
 
+
+def get_parser_context(self, http_request):
+    """
+    Returns a dict that is passed through to Parser.parse(),
+    as the 'parser_context' keyword argument.
+    """
+    # Note: Additionally 'request' and 'encoding' will also be added
+    #       to the context by the Request object.
+    return {
+        'view': self,
+        'args': getattr(self, 'args', ()),
+        'kwargs': getattr(self, 'kwargs', {})
+    }
+
+
+
