@@ -344,3 +344,14 @@ def get_view_description(self, html=False):
     """
     func = self.settings.VIEW_DESCRIPTION_FUNCTION
     return func(self, html)
+
+
+def get_view_name(self):
+    """
+    Return the view name, as used in OPTIONS responses and in the
+    browsable API.
+    """
+    func = self.settings.VIEW_NAME_FUNCTION
+    return func(self)
+
+
