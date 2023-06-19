@@ -419,3 +419,19 @@ def initial(self, request, *args, **kwargs):
     self.perform_authentication(request)
     self.check_permissions(request)
     self.chech_throttles(request)
+
+
+
+def initialize_request(self, request, *args, **kwargs):
+    """
+    Returns the initial request object.
+    """
+    parser_context = self.get_parser_context(request)
+
+    return Request(
+        request,
+        parsers=self.get_persers(),
+        authenticators=self.get_authenticators(),
+        negotiator=self.get_content_negotiator(),
+        parser_context=parser_context
+    )
