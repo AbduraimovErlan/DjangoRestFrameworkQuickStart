@@ -379,3 +379,24 @@ def handle_exception(self, exc):
         self.raise_uncaught_exception(exc)
     response.exception = True
     return response
+
+
+
+
+
+def http_method_not_allowed(self, request, *args, **kwargs):
+    """
+    If 'request.method' does not correspond to a handler method,
+    determine what kind of exception to raise.
+    """
+    raise exceptions.MethodNotAllowed(request.method)
+
+
+def http_method_not_allowed_(self, request, *args, **kwargs):
+    logger.warning(
+        "Method Not Allowed(%s): %s",
+        request.method,
+        request.path,
+        extra={"status_code": 405, "request": request},
+    )
+    return HttpResponseNotAllowed(self._allowed_methods())
