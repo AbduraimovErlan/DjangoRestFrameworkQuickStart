@@ -112,3 +112,24 @@ def check_permissions(self, request):
                 message=getattr(permission, 'message', None),
                 code=getattr(permission, 'code', None)
             )
+
+
+def check_throttles(self, request):
+    """ Check if request should be throttled.
+    Raises an appropriate exception if the request is throttled.
+    """
+    throttle_durations = []
+    for throttle in self.get_throttles():
+        if not throttle.allow_request(request, self):
+            throttle_durations.append(throttle.wait())
+
+    if throttle_durations:
+        # Filter out 'None' values which may happen in case of config / rate
+        # changes, see #1438
+        durations = [
+            duration for duration in throttle_durations
+            if duration is not None
+        ]
+
+        duration = max(durations, default=None)
+        self.throttled(request, duration)
