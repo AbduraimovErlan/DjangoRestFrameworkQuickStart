@@ -486,3 +486,13 @@ def perform_content_negotiation(self, request, force=False):
         if force:
             return (renderers[0], renderers[0].media_type)
         raise
+
+
+def permission_denied(self, request, message=None, code=None):
+    """
+    If request is not permitted, determine what kind of exception to raise.
+    """
+    if request.authenticators and not request.successful_authenticator:
+        raise exceptions.NotAuthenticated()
+    raise exceptions.PermissionDenied(detail=message, code=code)
+
