@@ -148,3 +148,45 @@ def determine_version(self, request, *args, **kwargs):
 
 
 
+
+def dispatch(self, request, *args, **kwargs):
+    """ '.dispatch()' is pretty much the same as Django's regular dispatch,
+    but with extra hooks for startup, finalize, and exception handling.
+    """
+    self.args = args
+    self.kwargs = kwargs
+    request = self.initialize_request(request, *args, **kwargs)
+    self.request = request
+    self.headers = self.default_response_headers  # deprecate?
+
+    try:
+        self.initial(request, *args, **kwargs)
+        #  Get the appropriate handler method
+        if request.method.lower() in self.http_method_names:
+            handler = getattr(self, request.method.lower(),
+                              self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+
+        response = handler(request, *args, **kwargs)
+    except Exception as exc:
+        response = self.handle_exception(exc)
+
+    self.response = self.finalize_response(request, response, *args, **kwargs)
+    return self.response
+
+def dispatch_(self, request, *args, **kwargs):
+    # Try to dispatch to the right method; if a method doesn't exist,
+    # defer to the error handler. Also defer to the error handler if the
+    # request method isn't on the approved list.
+    if request.method.lower() in self.http_method_names:
+        handler = getattr(
+            self, request.method.lower(), self.http_method_not_allowed
+        )
+    else:
+        handler = self.http_method_allowed
+    return handler(request, *args, **kwargs)
+
+
+
+
