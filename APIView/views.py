@@ -435,3 +435,27 @@ def initialize_request(self, request, *args, **kwargs):
         negotiator=self.get_content_negotiator(),
         parser_context=parser_context
     )
+
+
+
+def options(self, request, *args, **kwargs):
+    """
+    Handler method for HTTP 'OPTIONS' request
+    """
+    if self.metadata_class is None:
+        return self.http_method_not_allowed(request, *args, **kwargs)
+    data = self.metadata_class().determine_medadata(request, self)
+    return Response(data, status=status.HTTP_200_OK)
+
+def options_(self, request, *args, **kwargs):
+    """ Handle responding to requests for the OPTIONS HTTP verb. """
+    response = HttpResponse()
+    response.headers["Allow"] = ", ".join(self._allowed_methods())
+    response.headers["Content-Length"] = "0"
+
+    if self.view_is_async:
+        async def func():
+            return response
+        return func()
+    else:
+        return response
