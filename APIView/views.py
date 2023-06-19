@@ -226,3 +226,9 @@ def get_authenticate_header(self, request):
         return authenticators[0].authenticate_header(request)
 
 
+
+
+def get_authenticators(self):
+    """ Instantiates and returns the list of authentiacators that this view can use.
+    """
+    return [auth() for auth in self.authentication_classes]
