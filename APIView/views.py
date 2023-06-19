@@ -189,4 +189,28 @@ def dispatch_(self, request, *args, **kwargs):
 
 
 
+def finalize_response(self, request, response, *args, **kwargs):
+    """ Returns the final response is not returned """
+    # Make the error obvious if a proper response is not returned
+    assert isinstance(response, HttpResponseBase), (
+        "Expected a 'Response', 'HttpResponseBase' or 'HttpStreamingResponse; "
+        "to be returned form the view, but received a '%s' "
+        % type(response)
+    )
+    if isinstance(response, Response):
+        if not getattr(request, 'accepted_renderer', None):
+            neg = self.perform_content_negotiation(request, force=True)
+            request.accepted_renderer, request.accepted_media_type = neg
 
+        response.accepted_renderer = request.accepted_renderer
+        response.accepted_media_type = request.accepted_media_type
+        response.renderer_context = self.get_renderer_context()
+
+    #  Add new vary headers to the response instead of overwriting.
+    vary_headers = self.headers.pop('Vary', None)
+    if vary_headers is not None:
+        patch_vary_headers(response, cc_delim_re.split(vary_headers))
+    for key, value in self.headers.items():
+        response[key] = value
+
+    return response
