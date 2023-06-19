@@ -295,3 +295,10 @@ def get_parsers(self):
     return [parser() for parser in self.parser_classes]
 
 
+def get_permissions(self):
+    """
+    Instantiates and returns the list of permissions that this view requires.
+    """
+    return [permission() for permission in self.permission_classes]
+
+
