@@ -517,3 +517,12 @@ def setup(self, request, *args, **kwargs):
     self.request = request
     self.args = args
     self.kwargs = kwargs
+
+
+
+
+def throttled(self, request, wait):
+    """
+    If request is throttled, determine what kind of exception to raise.
+    """
+    raise exceptions.Throttled(wait)
