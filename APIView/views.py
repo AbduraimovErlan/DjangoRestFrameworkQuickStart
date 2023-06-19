@@ -133,3 +133,18 @@ def check_throttles(self, request):
 
         duration = max(durations, default=None)
         self.throttled(request, duration)
+
+
+
+def determine_version(self, request, *args, **kwargs):
+    """ If versioning is being used, then determine any API version for the
+    incoming request. Returns a two-tuple of (version, versioning_scheme)
+    """
+    if self.versioning_class is None:
+        return (None, None)
+    scheme = self.versioning_class()
+    return (scheme.determine_version(request, *args, **kwargs), scheme)
+
+
+
+
