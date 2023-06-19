@@ -295,10 +295,28 @@ def get_parsers(self):
     return [parser() for parser in self.parser_classes]
 
 
+
 def get_permissions(self):
     """
     Instantiates and returns the list of permissions that this view requires.
     """
     return [permission() for permission in self.permission_classes]
+
+
+
+
+def get_renderer_context(self):
+    """
+    Returns a dict that is passed through to Renderer.render(),
+    as the 'renderer_context' keyword argument.
+    """
+    # Note: Additionally 'response' will also be added to the context,
+    #       by the Response object.
+    return {
+        'view': self,
+        'args': getattr(self, 'args', ()),
+        'kwargs': getattr(self, 'kwargs', {}),
+        'request': getattr(self, 'request', None)
+    }
 
 
