@@ -288,3 +288,10 @@ def get_parser_context(self, http_request):
 
 
 
+def get_parsers(self):
+    """
+    Instantiates and returns the list of parsers that this view can use.
+    """
+    return [parser() for parser in self.parser_classes]
+
+
