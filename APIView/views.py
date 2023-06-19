@@ -459,3 +459,17 @@ def options_(self, request, *args, **kwargs):
         return func()
     else:
         return response
+
+
+
+
+def perform_authentication(self, request):
+    """
+    Perform authentication on the incoming request,
+    Note that if you override this and simply 'pass' then authentication
+    will instead be performed lazily, the firs time either
+    'request.user' or 'request.auth' is accessed.
+    """
+    request.user
+
+
