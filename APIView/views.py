@@ -261,3 +261,14 @@ def get_exception_handler_context(self):
         'kwargs': getattr(self, 'kwargs', {}),
         'request': getattr(self, 'request', None)
     }
+
+
+
+def get_format_suffix(self, **kwargs):
+    """
+    Determine if the request includes a '.json' style format suffix
+    """
+    if self.settings.FORMAT_SUFFIX_KWARG:
+        return kwargs.get(self.settings.FORMAT_SUFFIX_KWARG)
+
+
