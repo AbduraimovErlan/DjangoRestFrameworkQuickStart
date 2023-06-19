@@ -473,3 +473,16 @@ def perform_authentication(self, request):
     request.user
 
 
+
+def perform_content_negotiation(self, request, force=False):
+    """
+    Determine which renderer and media type to use render the response.
+    """
+    renderers = self.get_renderers()
+    conneg = self.get_content_negotiator()
+    try:
+        return conneg.select_renderer(request, renderers, self.format_kwarg)
+    except Exception:
+        if force:
+            return (renderers[0], renderers[0].media_type)
+        raise
