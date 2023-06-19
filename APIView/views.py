@@ -100,3 +100,15 @@ def check_object_permissions(self, request, obj):
                 code=getattr(permission, 'code', None)
             )
 
+
+def check_permissions(self, request):
+    """ Check if the request should be permitted.
+    Raises an appropriate exception if the request is not permitted.
+    """
+    for permission in self.get_permissions():
+        if not permission.has_permission(request, self):
+            self.permission_denied(
+                request,
+                message=getattr(permission, 'message', None),
+                code=getattr(permission, 'code', None)
+            )
