@@ -506,3 +506,14 @@ def raise_uncaught_exception(self, exc):
         use_plaintext_traceback = renderer_format not in ('html', 'api', 'admin')
         request.force_plaintext_errors(use_plaintext_traceback)
     raise exc
+
+
+
+
+def setup(self, request, *args, **kwargs):
+    """ Initialize attributes shated by all view methods."""
+    if hasattr(self, "get") and not hasattr(self, "head"):
+        self.head = self.get
+    self.request = request
+    self.args = args
+    self.kwargs = kwargs
