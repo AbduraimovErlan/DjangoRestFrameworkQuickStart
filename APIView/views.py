@@ -233,9 +233,20 @@ def get_authenticators(self):
     """
     return [auth() for auth in self.authentication_classes]
 
+
+
 def get_content_negotiator(self):
     """ Instantiate and return the content negotiation class to use.
     """
     if not getattr(self, '_negotiator', None):
         self._negotiator = self.content_negotiation_class()
     return self._negotiator
+
+
+def get_exception_handler(self):
+    """ Returns the exception handler that this view uses.
+    """
+    return self.settings.EXCEPTION_HANDLER
+
+
+
