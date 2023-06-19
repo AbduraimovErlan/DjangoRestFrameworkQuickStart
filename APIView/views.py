@@ -337,3 +337,10 @@ def get_throttles(self):
 
 
 
+def get_view_description(self, html=False):
+    """
+    Return some description text for the view, as used in OPTIONS responses
+    and in the browsable API.
+    """
+    func = self.settings.VIEW_DESCRIPTION_FUNCTION
+    return func(self, html)
