@@ -327,3 +327,13 @@ def get_renderers(self):
     """
     return [renderer() for renderer in self.renderer_classes]
 
+
+
+def get_throttles(self):
+    """
+    Instantiates and returns the list of throttles that this view uses.
+    """
+    return [throttle() for throttle in self.throttle_classes]
+
+
+
