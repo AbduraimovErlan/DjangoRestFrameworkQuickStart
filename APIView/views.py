@@ -232,3 +232,10 @@ def get_authenticators(self):
     """ Instantiates and returns the list of authentiacators that this view can use.
     """
     return [auth() for auth in self.authentication_classes]
+
+def get_content_negotiator(self):
+    """ Instantiate and return the content negotiation class to use.
+    """
+    if not getattr(self, '_negotiator', None):
+        self._negotiator = self.content_negotiation_class()
+    return self._negotiator
